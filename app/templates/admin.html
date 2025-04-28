@@ -1,0 +1,88 @@
+
+
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Админ панель - Персонажи Minecraft</title>
+    <link rel="stylesheet" href="{% static 'styles_admin.css' %}">
+    <link rel="stylesheet" href="{% static 'responsive.css' %}">
+</head>
+<body>
+    <div class="admin-container">
+       
+
+        <header class="admin-header">
+            <h1>Персонажи Minecraft - Админ</h1>
+            <div class="back-link">
+                <a href="{% url 'client-page' %}" class="back-button">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-house-door" viewBox="0 0 16 16">
+                        <path d="M8.354 1.146a.5.5 0 0 0-.708 0l-6 6A.5.5 0 0 0 1.5 7.5v7a.5.5 0 0 0 .5.5h4.5a.5.5 0 0 0 .5-.5v-4h2v4a.5.5 0 0 0 .5.5H14a.5.5 0 0 0 .5-.5v-7a.5.5 0 0 0-.146-.354L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293zM2.5 14V7.707l5.5-5.5 5.5 5.5V14H10v-4a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5v4z"/>
+                      </svg>
+                    <span class="back-text">Главная страница</span>
+                </a>
+            </div>
+        </header>
+
+        <div class="admin-content">
+            <div class="search-add-container">
+                <div class="search-form">
+                    <input type="text" id="searchInput" class="search-input" placeholder="Поиск персонажа..." oninput="searchCharacters()">
+                   
+                </div>
+                <button id="addCharacterButton" class="add-character-button" onclick="openAddModal()">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                        <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
+                    </svg>
+                    <span>Добавить</span>
+                </button>
+            </div>
+
+            <div class="character-cards-container">
+                <div class="character-cards" id="characterCards">
+                    <div class="loading-spinner" id="loadingSpinner">
+                        <div class="spinner"></div>
+                        <p>Загрузка персонажей...</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="characterModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <h2 id="modalTitle">Добавить персонажа</h2>
+            <form id="editCharacterForm" enctype="multipart/form-data">
+                <label for="name">Имя персонажа:</label>
+                <input type="text" id="characterName" name="name" required>
+
+                <label for="description">Описание:</label>
+                <textarea id="characterDescription" name="description" rows="4" required ></textarea>
+
+                <label for="classification">Тип:</label>
+                <select id="classification" name="classification">
+                    <option value="animals">Животные</option>
+                    <option value="hostile">Враждебные мобы</option>
+                    <option value="neutral">Нейтральные мобы</option>
+                    <option value="npc">Мирные NPC</option>
+                    <option value="main">Главный персонаж</option>
+                    <option value="boss">Босс-мобы</option>
+                </select>
+
+                <label for="special_information">Особая информация:</label>
+                <textarea id="specialInformation" name="special_information" rows="4" ></textarea>
+
+                <label for="characterImage">Изображение персонажа:</label>
+                <input type="file" id="characterImage" name="image" accept="image/*">
+
+                <button type="submit" class="submit-btn" id="submitBtn">Добавить персонажа</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="{% static 'scripts_admin.js' %}"></script>
+</body>
+</html>

@@ -1,0 +1,120 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Персонажи Minecraft</title>
+    <link rel="stylesheet" href="{% static 'styles.css' %}">
+    <link rel="stylesheet" href="{% static 'responsive.css' %}">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Персонажи Minecraft</h1>
+            <div class="back-link">
+                <a href="{% url 'admin-page' %}" class="back-button">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-gear" viewBox="0 0 16 16">
+                        <path d="M8 4.754a3.246 3.246 0 1 0 0 6.492 3.246 3.246 0 0 0 0-6.492M5.754 8a2.246 2.246 0 1 1 4.492 0 2.246 2.246 0 0 1-4.492 0"/>
+                        <path d="M9.796 1.343c-.527-1.79-3.065-1.79-3.592 0l-.094.319a.873.873 0 0 1-1.255.52l-.292-.16c-1.64-.892-3.433.902-2.54 2.541l.159.292a.873.873 0 0 1-.52 1.255l-.319.094c-1.79.527-1.79 3.065 0 3.592l.319.094a.873.873 0 0 1 .52 1.255l-.16.292c-.892 1.64.901 3.434 2.541 2.54l.292-.159a.873.873 0 0 1 1.255.52l.094.319c.527 1.79 3.065 1.79 3.592 0l.094-.319a.873.873 0 0 1 1.255-.52l.292.16c1.64.893 3.434-.902 2.54-2.541l-.159-.292a.873.873 0 0 1 .52-1.255l.319-.094c1.79-.527 1.79-3.065 0-3.592l-.319-.094a.873.873 0 0 1-.52-1.255l.16-.292c.893-1.64-.902-3.433-2.541-2.54l-.292.159a.873.873 0 0 1-1.255-.52zm-2.633.283c.246-.835 1.428-.835 1.674 0l.094.319a1.873 1.873 0 0 0 2.693 1.115l.291-.16c.764-.415 1.6.42 1.184 1.185l-.159.292a1.873 1.873 0 0 0 1.116 2.692l.318.094c.835.246.835 1.428 0 1.674l-.319.094a1.873 1.873 0 0 0-1.115 2.693l.16.291c.415.764-.42 1.6-1.185 1.184l-.291-.159a1.873 1.873 0 0 0-2.693 1.116l-.094.318c-.246.835-1.428.835-1.674 0l-.094-.319a1.873 1.873 0 0 0-2.692-1.115l-.292.16c-.764.415-1.6-.42-1.184-1.185l.159-.291A1.873 1.873 0 0 0 1.945 8.93l-.319-.094c-.835-.246-.835-1.428 0-1.674l.319-.094A1.873 1.873 0 0 0 3.06 4.377l-.16-.292c-.415-.764.42-1.6 1.185-1.184l.292.159a1.873 1.873 0 0 0 2.692-1.115z"/>
+                      </svg>
+                    <span class="back-text">Admin page</span>
+                </a>
+            </div>
+        </header>
+
+        <div class="searchFilterArea" style="display: flex; width: 50%; margin: auto; align-items: center; justify-content: space-evenly; ">
+            <div class="search-form">
+                <input type="text" id="searchInput" class="search-input" placeholder="Поиск персонажа..." oninput="searchAndFilter()">
+            </div>
+    
+            <div class="filter-form">
+                <select id="classificationFilter" class="filter-select" onchange="searchAndFilter()">
+                    <option value="all">Все</option>
+                    <option value="animals">Животные</option>
+                    <option value="hostile">Враждебные мобы</option>
+                    <option value="neutral">Нейтральные мобы</option>
+                    <option value="npc">Мирные NPC</option>
+                    <option value="main">Главный персонаж</option>
+                    <option value="boss">Босс-мобы</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="character-cards" id="characterCards">
+        </div>
+
+
+        <div id="characterModal" class="modal-character">
+            <div class="modal-content">
+                <span class="close" onclick="closeModal()">&times;</span>
+                <div class="modal-left">
+                    <img id="characterImage" src="" alt="" />
+                </div>
+                <div class="modal-right">
+                    <h3>Название</h3>
+                    <p id="characterName"></p>
+                    <h3>Классификация</h3>
+                    <p id="characterClassification"></p>
+                    <h3>Описание</h3>
+                    <p id="characterDescription"></p>
+                    <h3>Особенности</h3>
+                    <p id="specialInformation"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="chat-container">
+        <div class="chat-box" id="chatBox">
+        </div>
+        <div class="chat-input-area">
+            <input type="text" id="chatInput" class="chat-input" placeholder="Пример: как сделать алмазную кирку?"  value="Как сделать стол для крафта?"/>
+            <button id="sendMessageButton" class="send-button">Отправить</button>
+        </div>
+    </div>
+<div class="creators-section">
+    <h2>Создатели Minecraft</h2>
+    <div class="creators-grid">
+        <div class="creator-block">
+            <div class="creator-image">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a2/Notch_receives_the_Pioneer_Award_at_GDC_2016_%28cropped%29.jpg/1200px-Notch_receives_the_Pioneer_Award_at_GDC_2016_%28cropped%29.jpg" alt="Маркус Перссон">
+            </div>
+            <div class="creator-info">
+                <h3>Маркус Перссон (Notch)</h3>
+                <p class="creator-role">Главный создатель</p>
+                <p class="creator-bio">Шведский программист, создавший первую версию Minecraft в 2009 году. Покинул Mojang в 2014 после продажи компании Microsoft.</p>
+            </div>
+        </div>
+        
+        <div class="creator-block">
+            <div class="creator-image">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQNsGIYZsvr5PLKiYe9433UXQ1GZcF0vZz2pudXfWkvLCgQGvuAWu3fsrg8cg16ds98wlc&usqp=CAU" alt="Йенс Бергенстен">
+            </div>
+            <div class="creator-info">
+                <h3>Йенс Бергенстен (Jeb)</h3>
+                <p class="creator-role">Ведущий разработчик</p>
+                <p class="creator-bio">Присоединился к Mojang в 2010, возглавил разработку после ухода Notch. Добавил многие ключевые элементы игры.</p>
+            </div>
+        </div>
+        
+        <div class="creator-block">
+            <div class="creator-image">
+                <img src="https://static.wikia.nocookie.net/minecraft_ru_gamepedia/images/f/fa/Mojang_creeper_shirts.jpg/revision/latest/scale-to-width-down/250?cb=20110308085703" alt="Команда Mojang">
+            </div>
+            <div class="creator-info">
+                <h3>Команда Mojang</h3>
+                <p class="creator-role">Разработчики и дизайнеры</p>
+                <p class="creator-bio">Талантливая команда, которая продолжает развивать игру, добавляя новые биомы, мобов и механизмы.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+    <script src="{% static 'scripts.js' %}"></script>
+    <script src="{% static 'ai.js' %}"></script>
+</body>
+</html>
+
+
